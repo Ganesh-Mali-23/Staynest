@@ -1,3 +1,6 @@
+if(process.env.NODE_ENV != "production"){
+    require("dotenv").config();
+}
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -7,8 +10,8 @@ const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
 const listings = require("./routes/listing.js");
 const reviews = require("./routes/review.js");
-const cookieParser = require("cookie-parser");
 const session = require("express-session");
+const MongoStore = require("connect-mongo").default;
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -22,7 +25,7 @@ app.use(methodOverride("_method"));
 app.engine("ejs",ejsMate);
 app.use(express.static(path.join(__dirname,"public")));
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+const MONGO_URL = process.env.MongoDB_Atlas;
 main()
 .then(() => {
     console.log("Database connected"); 
@@ -35,8 +38,21 @@ async function main(){
     await mongoose.connect(MONGO_URL);
 };
 
+const store = MongoStore.create({
+    mongoUrl: MONGO_URL,
+    crypto : {
+        secret: process.env.SECRET
+    },
+    touchAfter: 24*3600,
+});
+
+store.on("error" , () => {
+    console.log("error in mongostore" , err);
+});
+
 const sessionOptions ={
-    secret : "mysupersecretcode",
+    store,
+    secret : process.env.SECRET,
     resave : false,
     saveUninitialized : true,
     cookie : {
@@ -44,12 +60,8 @@ const sessionOptions ={
         maxAge : 7*24*60*60*1000,
         httpOnly : true ,
     }
-}
-
-app.get("/", (req,res) => {
-    res.send("Welcome ! Find the best house for your stay.")
-
-});
+};
+console.log(sessionOptions);
 
 app.use(session(sessionOptions));
 app.use(flash());
@@ -77,6 +89,9 @@ app.use((req, res,next ) => {
 });
 
 app.use((err,req,res,next) => {
+    if(res.headersSent){
+        return next(err);
+    }
     let {statusCode=500 , message="something went wrong"} = err;
     res.status(statusCode).render("error.ejs" ,  {message , statusCode});
 });

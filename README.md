@@ -1,4 +1,4 @@
-# WanderlNest
+# Staynest
 
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=nodedotjs&logoColor=white)
 ![Express.js](https://img.shields.io/badge/Express.js-000000?style=flat&logo=express&logoColor=white)
@@ -6,7 +6,7 @@
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-7952B3?style=flat&logo=bootstrap&logoColor=white)
 ![Passport.js](https://img.shields.io/badge/Passport-34E27A?style=flat&logo=passport&logoColor=white)
 
-WanderlNest is a full-stack web application for discovering, listing, and reviewing vacation rentals and travel accommodations.
+Staynest is a full-stack web application for discovering, listing, and reviewing vacation rentals and travel accommodations.
 
 ## Features
 
@@ -38,7 +38,7 @@ WanderlNest is a full-stack web application for discovering, listing, and review
 1. **Clone the repository**:
    ```bash
    git clone https://github.com/Ganesh-Mali-23/Staynest.git
-   cd WanderlNest
+   cd Staynest
    ```
 
 2. **Install dependencies**:

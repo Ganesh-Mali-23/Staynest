@@ -37,7 +37,7 @@ WanderlNest is a full-stack web application for discovering, listing, and review
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/Ganesh-Mali-23/WanderlNest.git
+   git clone https://github.com/Ganesh-Mali-23/Staynest.git
    cd WanderlNest
    ```
 
